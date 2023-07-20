@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-// import image1 from "../img/img1.png";
-// import image2 from "../img/img5.jpg";
 import { Typography, Container, Card, CardActionArea, CardContent, Grid } from "@mui/material";
 import { Crypto } from "../context/CryptoContext";
 import axios from "axios";
 import Loader from "./Loader";
+import TrendingCoins from "./TrendingCoins";
 
 
 const HomePage = () => {
@@ -31,7 +30,7 @@ const HomePage = () => {
     };
     fetchGlobal();
     
-  }, [])
+  }, [currency])
   const marketCapKeys = cryptoStats?.total_market_cap ? Object.keys(cryptoStats.total_market_cap) : [];
 
   return (
@@ -40,12 +39,11 @@ const HomePage = () => {
     }}>
       <Container
         sx={{
-          marginTop: "80px",
-          height: "85vh",
+          marginTop: "70px",
           width: "100%",
         }}
       >
-        <Typography variant="h4" sx={{color:"#fff"}}>Global Crypto Stats</Typography>
+        <Typography variant="h4" sx={{color:"#fff"}}>Crypto Stats</Typography>
         <Container
           sx={{
             width: "90%",
@@ -55,15 +53,19 @@ const HomePage = () => {
         >
           {isLoading ? <Loader/> :
           <Grid container spacing={3}>
-              <StatsCard head="Coins" color="#16c12c" value={numberWithCommas(cryptoStats.active_cryptocurrencies)} />
-              <StatsCard head="Exchanges" color="#16c12c" value={numberWithCommas(cryptoStats.markets)} />
-              <StatsCard head="MarketCap" color="#16c12c" value={`${symbol}${numberWithCommas(cryptoStats.total_market_cap[currency.toLowerCase()])}`} />
-              <StatsCard head="24h Volume" color="#16c12c" value={`${symbol}${numberWithCommas(cryptoStats.total_volume[currency.toLowerCase()])}`} />
+              <StatsCard head="Coins" value={numberWithCommas(cryptoStats.active_cryptocurrencies)} />
+              <StatsCard head="Exchanges" value={numberWithCommas(cryptoStats.markets)} />
+              <StatsCard head="MarketCap" value={`${symbol}${numberWithCommas(cryptoStats.total_market_cap[currency.toLowerCase()])}`} />
+              <StatsCard head="24h Volume" value={`${symbol}${numberWithCommas(cryptoStats.total_volume[currency.toLowerCase()])}`} />
               <StatsCard head="24h Change" color={cryptoStats.market_cap_change_percentage_24h_usd>=0?"#16c12c":"#d2192a"} value={cryptoStats.market_cap_change_percentage_24h_usd.toFixed(2)+"%"} />
-              <StatsCard head="Dominance" color="#16c12c" value={`${marketCapKeys[0].toUpperCase()} ${cryptoStats.market_cap_percentage[marketCapKeys[0]].toFixed(2)}%  ,${marketCapKeys[1].toUpperCase()} ${cryptoStats.market_cap_percentage[marketCapKeys[1]].toFixed(2)}%`} />  
+              <StatsCard head="Dominance" value={`${marketCapKeys[0].toUpperCase()} ${cryptoStats.market_cap_percentage[marketCapKeys[0]].toFixed(2)}%  ,${marketCapKeys[1].toUpperCase()} ${cryptoStats.market_cap_percentage[marketCapKeys[1]].toFixed(2)}%`} />  
           </Grid>
 }
         </Container>
+      </Container>
+      <Container sx={{width:'100%'}}>
+        <Typography variant='h4' sx={{color:"#fff"}}>Top 10 Cryptos </Typography>
+        <TrendingCoins/>
       </Container>
     </div>
   );
@@ -75,10 +77,10 @@ const StatsCard=({head,value,color})=>{
              <Card sx={{ background: "#1d2026", color: "#fff" }}>
       <CardActionArea>
         <CardContent>
-          <Typography  variant="h4" component="div">
+          <Typography  variant="h5" component="div">
            {head}
           </Typography>
-          <Typography variant="h6" component="div" sx={{color:color,marginTop:"10px"}}>
+          <Typography variant="subtitle1" component="div" sx={{color:head==="24h Change"? color :"#bbb",marginTop:"10px"}}>
               {value}
           </Typography>
         </CardContent>
