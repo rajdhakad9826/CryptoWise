@@ -65,7 +65,9 @@ const HomePage = () => {
       </Container>
       <Container sx={{width:'100%'}}>
         <Typography variant='h4' sx={{color:"#fff"}}>Top 10 Cryptos </Typography>
+        <Container>
         <TrendingCoins/>
+        </Container>
       </Container>
     </div>
   );

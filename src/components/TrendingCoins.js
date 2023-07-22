@@ -34,11 +34,11 @@ const TrendingCoins = () => {
 
 
   return (
-    <Container sx={{margin:"30px 0",width: "90%"}}>
+    <Container sx={{margin:"30px 0"}}>
       <Grid container spacing={3}>
         {trendingCoins.map((coin) => {
           return (
-            <Grid item xs={12} sm={4} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <Card
                 sx={{ maxWidth: 345, background: "#1d2026", color: "#fff" }}
                 elevation={2}
