@@ -13,6 +13,24 @@ import {
 import axios from "axios";
 import SearchBar from "./SearchBar";
 import Pager from "./Pager";
+import { createTheme, ThemeProvider } from '@mui/material';
+const customBreakpoints = {
+  values: {
+    xs: 0,
+    sm: 450,
+    md: 600,
+    lg: 960,
+  },
+};
+
+const theme = createTheme({
+  typography: {
+    allVariants: {
+      fontFamily: 'Poppins'
+    },
+  },
+  breakpoints: customBreakpoints,
+});
 
 const Exchange = () => {
   const [data, setData] = useState([]);
@@ -38,6 +56,7 @@ const Exchange = () => {
   }, []);
   const filteredData=data.filter((coin)=>coin.name.toLowerCase().includes(search.toLowerCase()))
   return (
+    <ThemeProvider theme={theme}>
     <Box sx={{ padding: "80px 0 40px 0" }}>
       <Typography variant='h5' sx={{color:'#fff',textAlign:'center',marginBottom: page === 1 ? '0px':'20px'}}>Top Crypto Exchanges Ranked by Trust Score</Typography>
       {page===1 && <SearchBar searchVal={setSearch}/>}
@@ -65,12 +84,13 @@ const Exchange = () => {
       )}
       <Pager length={filteredData.length} per_page={100} setPage={setPage} />
     </Box>
+    </ThemeProvider>
   );
 };
 
 const ExchangeCard = ({ rank, image_url, url, name, trust_score }) => {
   return (
-    <Grid item xs={6} sm={4} md={3}>
+    <Grid item xs={12} sm={6} md={4} lg={3}>
       <Card
         sx={{ maxWidth: 345, background: "#1d2026", color: "#fff" }}
         elevation={2}
